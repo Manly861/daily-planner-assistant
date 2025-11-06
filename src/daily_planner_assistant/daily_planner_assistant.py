@@ -9,9 +9,10 @@ def main():
 if __name__ == "__name__":
     main()
 
- 
+
 todo_list = []
 again = "y"
+valid_value = True
 
 # Ask user some information
 while again == "y":
@@ -45,8 +46,21 @@ while again == "y":
 
 # Check if total of time values is greater than 24
 total_time = sum(mini_list[1] for mini_list in todo_list)
-print(total_time)
+print("Your estimated time in total is: ", total_time)
+if total_time > 24:
+    print("Please check your estimated time again! It may be over limit time")
+    valid_value = False
 
+# Build a schedule based on these input
+if valid_value == True:
+    todo_list.sort(key = lambda time_value: time_value[1])
+    print(todo_list)
+    for mini_list in todo_list:
+        print("Your task is: ", mini_list[0])
+        print("Task's estimated time (in hour) is ", mini_list[1])
+        print("---Take a " + str(mini_list[2]) + " minute break---")
+
+print("Thank you for your time!")
 
 
 
