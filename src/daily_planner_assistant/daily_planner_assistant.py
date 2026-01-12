@@ -30,13 +30,13 @@ while again == "y":
 
     # Suggest a break based on valid time value
     if time <= 1:
-        invalid_time = False
         if time < 0.5: 
             break_amount = 5
         else:
             break_amount = 10
     else:
         break_amount = 15
+    invalid_time = True
     break_suggestion = "---Take a " + str(break_amount) + "-minute break---"
     print(break_suggestion)
 
@@ -50,7 +50,7 @@ while again == "y":
 total_time = sum(mini_list[1] for mini_list in todo_list)
 print(f"Your estimated time in total is: " + str(total_time) + "hours")
 if total_time > 24:
-    print("Please check your estimated time again! It should not be over limit time")
+    print("Please check your estimated time again! It should not be over limit time/n1")
     valid_value = False
 
 # Build a schedule based on these input
