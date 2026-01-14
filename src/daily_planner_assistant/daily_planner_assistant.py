@@ -14,6 +14,9 @@ todo_list = []
 again = "y"
 valid_value = True
 invalid_time = True
+message = "---Please check your estimated time agian!---\n"
+message += "It should not be negative numbers, zeros, or over 24 hours"
+
 
 # Ask user informations about name of the tasks and estimated time for each one
 # If time value is a negative number, zero, or over 24 hours, keep asking user untill it is valid
@@ -22,8 +25,7 @@ while again == "y":
     while invalid_time:
         time = float(input("What is your estimated time for this task (in hour)?: "))
         if time <= 0 or time >= 24:
-            print("---Please check your estimated time agian!---")
-            print("It should not be negative numbers, zeros, or over 24 hours" )
+            print(message)
             invalid_time = True
         else:
             invalid_time = False
@@ -50,7 +52,7 @@ while again == "y":
 total_time = sum(mini_list[1] for mini_list in todo_list)
 print(f"Your estimated time in total is: " + str(total_time) + "hours")
 if total_time > 24:
-    print("Please check your estimated time again! It should not be over limit time/n1")
+    print(message)
     valid_value = False
 
 # Build a schedule based on these input
