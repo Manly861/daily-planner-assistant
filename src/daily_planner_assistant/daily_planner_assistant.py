@@ -27,7 +27,6 @@ def main():
 
         # Append them into todo_list and ask user if they want to continue
         user_todo_list.append(mini_list)
-        print(user_todo_list)
         again = input("Do you want to conitune?(y/n): ")
 
     # Recall build_a_schedule to provide user a suggested schedule
@@ -61,7 +60,7 @@ def get_info():
             else:
                 invalid_time = False
         except ValueError:
-            print(time_message.replace("negative numbers, zeros, or over 24 hours", "a string"))
+            print(time_message.replace("negative numbers, zeros, or over 24 hours", "a string or symbols"))
 
     # Suggest a break based on valid time value
     if time <= 1:
