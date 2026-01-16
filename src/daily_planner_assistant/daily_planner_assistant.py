@@ -10,11 +10,11 @@ if __name__ == "__name__":
     main()
 
 # Set the invalid input of time and task message
-time_message = "---Please check your estimated time again!---\n"
-time_message += "It should not be negative numbers, zeros, or over 24 hours"
+time_message = "\n---Please check your estimated time again!---\n"
+time_message += "  It should not be negative numbers, zeros, or over 24 hours\n"
 
-task_message = "---Please check your name of task again!---\n"
-task_message += "It should not include numbers or symbols"
+task_message = "\n---Please check your name of task again!---\n"
+task_message += "  It should not include numbers or symbols\n"
 
 def main():
     """Ask user information and then provide then a schedule suggestion"""
@@ -61,7 +61,8 @@ def get_info():
             else:
                 invalid_time = False
         except ValueError:
-            print(f"{time_message} or a string")
+            print(time_message.replace("negative numbers, zeros, or over 24 hours", "a string"))
+
     # Suggest a break based on valid time value
     if time <= 1:
         if time < 0.5: 
@@ -81,7 +82,7 @@ def build_a_schedule(todo_list):
     # If total of time values is greater than 24,
     # it will print an invalid input message 
     total_time = sum(mini_list[1] for mini_list in todo_list)
-    print(f"Your estimated time in total is: " + str(total_time) + "hours")
+    print(f"Your estimated time in total is: " + str(total_time) + " hours")
     if total_time > 24:
         print(time_message)
         valid_value = False
