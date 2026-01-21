@@ -3,11 +3,11 @@ Daily Planner Assistant
 by Man Ly 
 """
 
-def main():
-    print("Welcome")
+import os
+import time
 
-if __name__ == "__name__":
-    main()
+# Define color codes
+
 
 # Set the invalid input of time and task message
 invalid_time_input_message = "\n---Please check your estimated time again!---\n"
@@ -20,7 +20,7 @@ def main():
     user_todo_list = []
     again = "y"
         
-    # Recall get_info() function to get information
+    # Recall get_info() function to get and process information
     while again == "y":
         mini_list = get_info()
 
@@ -49,34 +49,58 @@ def get_info():
             print(invalid_task_input_message)
             invalid_task_input = True
 
+    # Ask user if they want to enter time input in hour
+    time_unit_check = input("Next, Do you want to enter time input in hour? (y/n): ")
+
     # If time input is a negative number, zero, or over 24 hours, it will ask user again and again
     while invalid_time_input:
         try:
-            time = float(input("What is your estimated time for this task (in hour)?: "))
-            if time <= 0 or time >= 24:
-                print(invalid_time_input_message)
-                invalid_time_input = True
-            else:
-                invalid_time_input = False
+            if time_unit_check == "y":
+                time_input = float(input("What is your estimated time for this task (in hour)?: "))
+                if time_input <= 0 or time_input >= 24:
+                    print(invalid_time_input_message)
+                    invalid_time_input = True
+                else:
+                    invalid_time_input = False
+            elif time_unit_check == "n":
+                time_input = float(input("What is your estimated time for this task (in minute)?: "))
+                if time_input <= 0 or time_input >= 1440:
+                    print(invalid_time_input_message)
+                    invalid_time_input = True
+                else:
+                    invalid_time_input = False
         except ValueError:
             print(invalid_time_input_message.replace("negative numbers, zeros, or over 24 hours", "a string or symbols"))
 
-    # Suggest a break based on valid time value
+    # Suggest a break based on valid time input
     if invalid_task_input == False:
-        if time <= 1:
-            if time < 0.5: 
-                break_amount = 5
+        if time_unit_check == "y":
+            if time_input <= 1:
+                if time_input < 0.5: 
+                    break_amount = 5
+                else:
+                    break_amount = 10
             else:
-                break_amount = 10
-        else:
-            break_amount = 15
+                break_amount = 15
+        elif time_unit_check == "n":
+            if time_input <= 60:
+                if time_input < 0.5: 
+                    break_amount = 5
+                else:
+                    break_amount = 10
+            else:
+                break_amount = 15
+
     break_suggestion = "---Take a " + str(break_amount) + "-minute break---"
     print(break_suggestion)
 
-    return task, time, break_amount
+    return task, time_input, break_amount
 
 def build_a_schedule(todo_list):
     """Build a schedule based on the valid values"""
+    # Clear the screen to start the process
+    os.system("cls")
+
     # If total of time values is greater than 24, it will print an invalid input message 
     total_time = sum(mini_list[1] for mini_list in todo_list)
     print(f"Your estimated time in total is: " + str(total_time) + " hours")
