@@ -75,26 +75,29 @@ def get_info():
     # Suggest a break based on valid time input
     if invalid_task_input == False:
         if time_unit_check == "y":
-            if time_input <= 1:
+            if time_input < 1:
                 if time_input < 0.5: 
                     break_amount = 5
                 else:
                     break_amount = 10
             else:
                 break_amount = 15
-        elif time_unit_check == "n":
-            if time_input <= 60:
-                if time_input < 0.5: 
-                    break_amount = 5
-                else:
-                    break_amount = 10
-            else:
-                break_amount = 15
+            break_suggestion = "---Take a " + str(break_amount) + "-minute break each one hour---"
 
-    break_suggestion = "---Take a " + str(break_amount) + "-minute break---"
+        if time_unit_check == "n":
+            if time_input < 60:
+                if time_input < 15:
+                    break_amount = 2
+                elif 15 <= time_input < 30: 
+                    break_amount = 5
+                else:
+                    break_amount = 10
+            else:
+                break_amount = 15
+            break_suggestion = "---Take a " + str(break_amount) + "-minute break---"
     print(break_suggestion)
 
-    return task, time_input, break_amount
+    return task, time_input, break_amount, time_unit_check
 
 def build_a_schedule(todo_list):
     """Build a schedule based on the valid values"""
@@ -111,13 +114,16 @@ def build_a_schedule(todo_list):
         valid_value = True
 
     # If it doesn't, it will build a schedule
-    print("\t---Here's Your Schedule Suggestion!---")
     if valid_value == True:
+        print("\t---Here's Your Schedule Suggestion!---")
         todo_list.sort(key = lambda time_value: time_value[1])
         for mini_list in todo_list:
             print("Your task is: ", mini_list[0])
-            print("Task's estimated time (in hour) is ", mini_list[1])
-            print("---Take a " + str(mini_list[2]) + " minute break---")
+            if mini_list[3] == "y":
+                print(f"Task's estimated time is {mini_list[1]} hour(s)")
+            else:
+                print(f"Task's estimated time is {mini_list[1]} minute(s)")
+            print("---Take a " + str(mini_list[2]) + " minute break---\n")
 
 main()
 
