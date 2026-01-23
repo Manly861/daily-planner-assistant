@@ -104,8 +104,14 @@ def build_a_schedule(todo_list):
     # Clear the screen to start the process
     os.system("cls")
 
-    # If total of time values is greater than 24, it will print an invalid input message 
-    total_time = sum(mini_list[1] for mini_list in todo_list)
+    # If total of time values is greater than 24, it will print an invalid input message
+    total_time = 0 
+    for mini_list in todo_list:
+        if mini_list[3] == "y":
+            total_time += mini_list[1]
+        if mini_list[3] == "n":
+            total_time += mini_list[1] / 60
+            
     print(f"Your estimated time in total is: " + str(total_time) + " hours")
     if total_time > 24:
         print(invalid_time_input_message)
