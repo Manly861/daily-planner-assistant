@@ -7,13 +7,17 @@ import os
 import time
 
 # Define color codes
-
+RED = '\033[31m'
+GREEN = '\033[32m'
+BLUE = '\033[34m'
+YELLOW = '\033[93m'
+RESET = '\033[0m'
 
 # Set the invalid input of time and task message
-invalid_time_input_message = "\n---Please check your estimated time again!---\n"
-invalid_time_input_message += "  It should not be negative numbers, zeros, or over 24 hours\n"
-invalid_task_input_message = "\n---Please check your name of task again!---\n"
-invalid_task_input_message += "  It should not include numbers or symbols\n"
+invalid_time_input_message = RED + "\n---Please check your estimated time again!---\n"
+invalid_time_input_message += "  It should not be negative numbers, zeros, or over 24 hours\n" + RESET
+invalid_task_input_message = RED + "\n---Please check your name of task again!---\n"
+invalid_task_input_message += "  It should not include numbers or symbols\n" + RESET
 
 def main():
     """Ask user information and then provide then a schedule suggestion"""
@@ -29,9 +33,8 @@ def main():
         again = input("Do you want to conitune?(y/n): ")
 
     # Recall build_a_schedule() function to provide user a suggested schedule
-    print("\tStarting Processing...")
     build_a_schedule(user_todo_list)
-    print("\t   ---Thank you for your time!---")
+    print(f"\t{YELLOW}---Thank you for your time!---{RESET}")
 
 def get_info():
     """Return 3 value that are processed from users input: name of task, estimated time, and suggested break"""
@@ -49,11 +52,11 @@ def get_info():
             print(invalid_task_input_message)
             invalid_task_input = True
 
-    # Ask user if they want to enter time input in hour
-    time_unit_check = input("Next, Do you want to enter time input in hour? (y/n): ")
-
     # If time input is a negative number, zero, or over 24 hours, it will ask user again and again
     while invalid_time_input:
+        # Ask user if they want to enter time input in hour
+        time_unit_check = input("Next, Do you want to enter time input in hour? (y/n): ")
+
         try:
             if time_unit_check == "y":
                 time_input = float(input("What is your estimated time for this task (in hour)?: "))
@@ -69,6 +72,8 @@ def get_info():
                     invalid_time_input = True
                 else:
                     invalid_time_input = False
+            else:
+                print("\tError! Just use 'y' and 'n' please")
         except ValueError:
             print(invalid_time_input_message.replace("negative numbers, zeros, or over 24 hours", "a string or symbols"))
 
@@ -82,7 +87,7 @@ def get_info():
                     break_amount = 10
             else:
                 break_amount = 15
-            break_suggestion = "---Take a " + str(break_amount) + "-minute break each one hour---"
+            break_suggestion = BLUE + "---Take a " + str(break_amount) + "-minute break each one hour---" + RESET
 
         if time_unit_check == "n":
             if time_input < 60:
@@ -94,7 +99,7 @@ def get_info():
                     break_amount = 10
             else:
                 break_amount = 15
-            break_suggestion = "---Take a " + str(break_amount) + "-minute break---"
+            break_suggestion = BLUE + "---Take a " + str(break_amount) + "-minute break---" + RESET
     print(break_suggestion)
 
     return task, time_input, break_amount, time_unit_check
@@ -103,16 +108,19 @@ def build_a_schedule(todo_list):
     """Build a schedule based on the valid values"""
     # Clear the screen to start the process
     os.system("cls")
+    print("\tStarting Processing...")
 
-    # If total of time values is greater than 24, it will print an invalid input message
+    # Add all the time values up in hours
+    # if it is in minutes, convert it to hours and add it up
     total_time = 0 
     for mini_list in todo_list:
         if mini_list[3] == "y":
             total_time += mini_list[1]
         if mini_list[3] == "n":
-            total_time += mini_list[1] / 60
-            
+            total_time += mini_list[1] / 60        
     print(f"Your estimated time in total is: " + str(total_time) + " hours")
+
+    # If total of time values is greater than 24, it will print an invalid input message
     if total_time > 24:
         print(invalid_time_input_message)
         valid_value = False
