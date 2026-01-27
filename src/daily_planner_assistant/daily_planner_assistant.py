@@ -8,6 +8,7 @@ import time
 
 # Define color codes
 RED = '\033[31m'
+BOLD_RED = '\033[1;31m'
 GREEN = '\033[32m'
 BLUE = '\033[34m'
 YELLOW = '\033[93m'
@@ -118,14 +119,16 @@ def build_a_schedule(todo_list):
             total_time += mini_list[1]
         if mini_list[3] == "n":
             total_time += mini_list[1] / 60        
-    print(f"Your estimated time in total is: " + str(total_time) + " hours")
 
     # If total of time values is greater than 24, it will print an invalid input message
-    if total_time > 24:
-        print(invalid_time_input_message)
-        valid_value = False
-    else:
+    if total_time < 24:
         valid_value = True
+        print(f" {GREEN} Your estimated time in total is: {str(total_time)} hours {RESET}")
+
+    else:
+        valid_value = False
+        print(f" {BOLD_RED} Your estimated time in total is: {str(total_time)} hours {RESET}")
+        print(invalid_time_input_message)
 
     # If it doesn't, it will build a schedule
     if valid_value == True:
