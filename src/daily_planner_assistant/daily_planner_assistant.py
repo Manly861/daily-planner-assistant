@@ -74,7 +74,7 @@ def get_info():
                 else:
                     invalid_time_input = False
             else:
-                print("\tError! Just use 'y' and 'n' please")
+                print(f"\t{RED}Error! Just use 'y' and 'n' please {RESET}")
         except ValueError:
             print(invalid_time_input_message.replace("negative numbers, zeros, or over 24 hours", "a string or symbols"))
 
@@ -109,16 +109,24 @@ def build_a_schedule(todo_list):
     """Build a schedule based on the valid values"""
     # Clear the screen to start the process
     os.system("cls")
+    time.sleep(1)
+
     print("\tStarting Processing...")
+
+    # Delay release of output (5 second at most)
+    for i in range(6):
+        print(i)
+        time.sleep(0.5)
 
     # Add all the time values up in hours
     # if it is in minutes, convert it to hours and add it up
+    os.system("cls")
     total_time = 0 
     for mini_list in todo_list:
         if mini_list[3] == "y":
             total_time += mini_list[1]
         if mini_list[3] == "n":
-            total_time += mini_list[1] / 60        
+            total_time += round(mini_list[1] / 60, 2)       
 
     # If total of time values is greater than 24, it will print an invalid input message
     if total_time < 24:
@@ -132,7 +140,7 @@ def build_a_schedule(todo_list):
 
     # If it doesn't, it will build a schedule
     if valid_value == True:
-        print("\t---Here's Your Schedule Suggestion!---")
+        print(f"\t {YELLOW}---Here's Your Schedule Suggestion!--- {RESET}")
         todo_list.sort(key = lambda time_value: time_value[1])
         for mini_list in todo_list:
             print("Your task is: ", mini_list[0])
