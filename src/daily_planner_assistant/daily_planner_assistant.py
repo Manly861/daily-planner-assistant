@@ -44,14 +44,24 @@ def get_info():
     invalid_task_input = True
 
     # Ask user informations about task and time
-    # If name of task input includes numbers or symbols, it will print a invalid task input message
+    # If name of task input includes numbers or symbols (exclude space),
+    # Then, it will print a invalid task input message
     while invalid_task_input:
-        task = input("What is your task needed to be completed?: ")
-        if task.isalpha():
-            invalid_task_input = False
-        else: 
-            print(invalid_task_input_message)
-            invalid_task_input = True
+        task_input = input("What is your task needed to be completed?: ")
+        if " " in task_input:
+            task_input_without_space = task_input.replace(" ", "")
+            if task_input_without_space.isalpha():
+                invalid_task_input = False
+            else: 
+                print(invalid_task_input_message)
+                invalid_task_input = True
+        else:
+            if task_input.isalpha():
+                invalid_task_input = False
+            else: 
+                print(invalid_task_input_message)
+                invalid_task_input = True
+
 
     # If time input is a negative number, zero, or over 24 hours, it will ask user again and again
     while invalid_time_input:
@@ -103,7 +113,7 @@ def get_info():
             break_suggestion = BLUE + "---Take a " + str(break_amount) + "-minute break---" + RESET
     print(break_suggestion)
 
-    return task, time_input, break_amount, time_unit_check
+    return task_input, time_input, break_amount, time_unit_check
 
 def build_a_schedule(todo_list):
     """Build a schedule based on the valid values"""
