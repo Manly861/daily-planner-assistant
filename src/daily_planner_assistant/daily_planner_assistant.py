@@ -26,16 +26,30 @@ invalid_task_input_message += "  It should not include numbers or symbols(expect
 
 def main():
     """Ask user information and then provide then a schedule suggestion"""
+    os.system("cls")
     user_todo_list = []
     again = "y"
+
+    # Greeting to user
+    print("Welcome to Daily Planner Assistant!")
+    time.sleep(3.0)
+    print("This program will help users organize a schedule")
+    time.sleep(3.0)
+    print("Before we create a schedule, I'll need to ask you for some specific information ")
+    time.sleep(3.0)
+    print(f"They are about the {BOLD} tasks you need to complete {RESET} and the {BOLD}estimated time{RESET} to complete them.")
+    time.sleep(3.5)
+    input(YELLOW + "Press Enter To Start" + RESET)
         
     # Recall get_info() function to get and process information
+    os.system("cls")
+    time.sleep(2.0)
     while again == "y":
         mini_list = get_info()
 
         # Append them into todo_list and ask user if they want to continue
         user_todo_list.append(mini_list)
-        again = input(f" {BOLD}Do you want to conitune?(y/n): {RESET}")
+        again = input(f" {BOLD}Do you want to continue?(y/n): {RESET}")
 
     # Recall build_a_schedule() function to provide user a suggested schedule
     build_a_schedule(user_todo_list)
