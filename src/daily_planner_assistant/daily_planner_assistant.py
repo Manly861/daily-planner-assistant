@@ -35,7 +35,7 @@ def main():
 
         # Append them into todo_list and ask user if they want to continue
         user_todo_list.append(mini_list)
-        again = input("Do you want to conitune?(y/n): ")
+        again = input(f" {BOLD}Do you want to conitune?(y/n): {RESET}")
 
     # Recall build_a_schedule() function to provide user a suggested schedule
     build_a_schedule(user_todo_list)
@@ -69,7 +69,7 @@ def get_info():
     # If time input is a negative number, zero, or over 24 hours, it will ask user again and again
     while invalid_time_input:
         # Ask user if they want to enter time input in hour
-        time_unit_check = input("Next, Do you want to enter time input in hour? (y/n): ")
+        time_unit_check = input(f"{BOLD}Next, Do you want to {UNDERLINE}enter time input in hour{RESET}? (y/n): {RESET}")
         try:
             if time_unit_check == "y":
                 time_input = float(input(f"What is your {BOLD}estimated time{RESET} for this task {BOLD}{UNDERLINE}(in hour){RESET}?: "))
@@ -93,7 +93,7 @@ def get_info():
     # Suggest a break based on valid time input (in hour)
     if invalid_task_input == False:
         if time_unit_check == "n":
-            time_input = round((time_input / 60), 2)
+            time_input = time_input / 60
         else: 
             time_input = time_input
 
@@ -104,10 +104,9 @@ def get_info():
                 break_amount = 10
         else:
             break_amount = 15
-        break_suggestion = BLUE + "---Take a " + str(break_amount) + "-minute break---" + RESET
+        break_suggestion = BLUE + "---Take a " + str(break_amount) + "-minute break.---\n" + RESET
     print(break_suggestion)
-
-    return task_input, time_input, break_amount, time_unit_check
+    return task_input, time_input, break_suggestion, time_unit_check
 
 def build_a_schedule(todo_list):
     """Build a schedule based on the valid values"""
@@ -132,7 +131,7 @@ def build_a_schedule(todo_list):
     # If total of time values is greater than 24, it will print an invalid input message
     if total_time < 24:
         valid_value = True
-        print(f" {GREEN} Your estimated time in total is: {str(total_time)} hours {RESET}")
+        print(f" {GREEN} Your estimated time in total is: {str(round(total_time, 2))} hours {RESET}")
 
     else:
         valid_value = False
@@ -147,9 +146,10 @@ def build_a_schedule(todo_list):
             print("Your task is: ", mini_list[0])
             if mini_list[3] == "y":
                 print(f"Task's estimated time is {mini_list[1]} hour(s)")
+                print(mini_list[2].replace(".---", " each one hour.---"))
             else:
-                print(f"Task's estimated time is {round((mini_list[1] * 60),2)} minute(s)")
-            print("---Take a " + str(mini_list[2]) + " minute break---\n")
+                print(f"Task's estimated time is {round(mini_list[1] * 60, 2)} minute(s)")
+                print(mini_list[2])
 
 main()
 
